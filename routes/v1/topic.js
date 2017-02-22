@@ -1,5 +1,5 @@
 import express from 'express';
-import { findApp } from '../../middlewares/push';
+import { findApp } from '../../middlewares/app';
 import { create, deleteTopic, findTopicMiddleware, findTopic } from '../../middlewares/topic';
 
 const router = express.Router();

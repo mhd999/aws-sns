@@ -4,12 +4,16 @@ import App from '../models/app';
 import { sns } from './aws';
 
 export async function createApp(req: any, res: any) {
+  const platform = req.body.platform;
+  const credential = platform === 'GCM' ? req.body.gcm_key : req.body.apns_p12;
+  
   const params = {
     Attributes: {
-      PlatformCredential: req.body.gcm_key,
+      PlatformCredential: credential,
+      PlatformPrincipal: req.body.certificate || '',
     },
     Name: req.body.name,
-    Platform: req.body.platform,
+    Platform: platform,
   };
   try {
     sns.createPlatformApplication(params, (err, data) => {
@@ -18,10 +22,11 @@ export async function createApp(req: any, res: any) {
       } else {
         const appData = {
           name: req.body.name,
-          gcm_key: req.body.gcm_key,
+          platform: platform,
           platform_application_arn: data.PlatformApplicationArn,
           request_id: data.ResponseMetadata.RequestId,
         };
+        platform === 'GCM' ? Object.assign(appData, {gcm_key: req.body.gcm_key}) : Object.assign(appData, {apns_p12: req.body.apns_p12});
         const app = new App(appData);
         app.save()
           .then((dataSaved) => {

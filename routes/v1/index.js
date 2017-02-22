@@ -1,14 +1,14 @@
 import express from 'express';
-import pushRoutes from './push';
+import appRoutes from './app';
 import notificationRoutes from './notification';
 import topicRoutes from './topic';
 import endpointRoutes from './endpoint';
 
 const router = express.Router();
 
-router.use('/push/app', pushRoutes);
-router.use('/push/app', topicRoutes);
-router.use('/push/app', notificationRoutes);
-router.use('/push/app', endpointRoutes);
+router.use('/app', appRoutes);
+router.use('/app', topicRoutes);
+router.use('/app', notificationRoutes);
+router.use('/app', endpointRoutes);
 
 module.exports = router;

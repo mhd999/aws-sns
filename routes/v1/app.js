@@ -1,5 +1,5 @@
 import express from 'express';
-import { createApp, findAppbyId, findApp } from '../../middlewares/push';
+import { createApp, findAppbyId, findApp } from '../../middlewares/app';
 
 const router = express.Router();
 
